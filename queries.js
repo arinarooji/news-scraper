@@ -1,0 +1,2 @@
+//TEST QUERIES
+db.stories.insert({"headline": "Example Headline", "summary": "Example summary here", "url": "www.google.com", "img": "https://pbs.twimg.com/profile_images/839721704163155970/LI_TRk1z_400x400.jpg"});

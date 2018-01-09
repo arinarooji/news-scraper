@@ -17,7 +17,11 @@ var app = express(); // Initialize Express
     app.use(express.static("public"));
 //Mongoose
 mongoose.Promise = Promise; //Leverage ES6 promises, mongoose
-var db = mongoose.connect(config.db.uri, { useMongoClient: true }); //mLab connection
+    //mLab connection
+    //var db = mongoose.connect(config.db.uri, { useMongoClient: true });
+    //local connection
+    mongoose.connect("mongodb://localhost/newscraper");
+    var db = mongoose.connection;
 
 //Log mongoose errors
 db.on("error", function(error) {

@@ -1,5 +1,6 @@
 {
 	"db": {
-		"uri": "mongodb://karooji:parabola01@ds046367.mlab.com:46367/newscraper"
+		"uri": "mongodb://karooji:parabola01@ds046367.mlab.com:46367/newscraper",
+		"MONGODB_URI": "mongodb://heroku_qssbmlxf:ndopukj9sndtrfip4rd5unp24n@ds249787.mlab.com:49787/heroku_qssbmlxf"
 	}
 }
