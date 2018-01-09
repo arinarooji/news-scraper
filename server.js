@@ -33,6 +33,32 @@ db.once("open", function() {
 });
 ///////////////////////////////////////////////////
 
+//Retrieve HTML data (test)
+request("https://www.nytimes.com/", function(error, response, html) {
+    var $ = cheerio.load(html);
+    
+    // An empty array to save the data that we'll scrape
+    var results = [];
+    var length  = 7;
+
+    // With cheerio, find each article tag with the "story theme-summary" classes
+    $("article.story.theme-summary").each(function(i, element) {
+
+        var headline = $(element).children("h2.story-heading").text();
+        var summary  = ($(element).children("p.summary").text() == "")? $(element).children("ul").text() : $(element).children("p.summary").text()
+
+        // Save these results in an object that we'll push into the results[]
+        results.push({
+            headline: headline,
+            summary: summary
+        });
+    });
+
+    results.length = length; //Fixed length
+    console.log(results);
+});
+/////////////////////////
+
 //ROUTES
 //...
 
