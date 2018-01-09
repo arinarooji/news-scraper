@@ -1,1 +1,3 @@
 # news-scraper
+Week 18 homework
+Description coming soon...
