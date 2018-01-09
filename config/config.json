@@ -1,0 +1,5 @@
+{
+	"db": {
+		"uri": "mongodb://karooji:parabola01@ds046367.mlab.com:46367/newscraper"
+	}
+}
