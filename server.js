@@ -1,7 +1,7 @@
 //DEPENDENCIES
 const express    = require("express");
 const bodyParser = require("body-parser");
-const exhan = require("express-handlebars");
+const handlebars = require("express-handlebars");
 const cheerio    = require("cheerio");  // Parses our HTML and helps us find elements
 const request    = require("request");  // Makes HTTP request for HTML page
 const mongoose   = require("mongoose"); // Our newest addition to the dependency family
@@ -18,7 +18,7 @@ const results = [], length = 7; //Array to store results (will be relocated)
 var app = express(); // Initialize Express
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(express.static("public"));
-    app.engine("handlebars", exhan({ defaultLayout: "main" }));
+    app.engine("handlebars", handlebars({ defaultLayout: "main" }));
     app.set("view engine", "handlebars");
 
 //Mongoose
