@@ -10,7 +10,7 @@ const config = require("./config").init();
 const model  = require("./models/model.js");
 let port     = require("./config").port;
 ////////////////////////////////////////
-
+const results = [], length = 9;
 //CONFIGURATION
 //Express, Express-Handlebars
 var app = express(); // Initialize Express
@@ -36,37 +36,35 @@ db.once("open", function() {
 });*/
 ///////////////////////////////////////////////////
 
-//Retrieve HTML data (test)
-request("https://www.nytimes.com/", function(error, response, html) {
-    var $ = cheerio.load(html);
-    
-    // An empty array to save the data that we'll scrape
-    var results = [];
-    var length  = 9;
 
-    // With cheerio, find each article tag with the "story theme-summary" classes
-    $("article.story.theme-summary").each(function(i, element) {
-
-        var headline = $(element).children("h2.story-heading").text();
-        var summary  = ($(element).children("p.summary").text() == "")? $(element).children("ul").text() : $(element).children("p.summary").text()
-        var url      = $(element).children("h2.story-heading").children("a").attr("href");
-
-        // Save these results in an object that we'll push into the results[]
-        results.push({
-            headline: headline.trim(),
-            summary: summary.trim(),
-            url: url
-        });
-    });
-
-    results.length = length; //Fixed length
-    console.log(results);
-});
 /////////////////////////
 
 //ROUTES
-app.get("/", function(req, res) {
-    console.log("Hello World!");
+//Scrape and return NY Times data
+app.get('/data', function(req, res) {
+    
+    //Retrieve HTML data from NY Times
+    request("https://www.nytimes.com/", function(error, response, html) {
+        var $ = cheerio.load(html);
+        // With cheerio, find each article tag with the "story theme-summary" classes
+        $("article.story.theme-summary").each(function(i, element) {
+
+            var headline = $(element).children("h2.story-heading").text();
+            var summary  = ($(element).children("p.summary").text() == "")? $(element).children("ul").text() : $(element).children("p.summary").text()
+            var url      = $(element).children("h2.story-heading").children("a").attr("href");
+
+            // Save these results in an object that we'll push into the results[]
+            results.push({ headline: headline.trim(), summary: summary.trim(), url: url });
+        });
+        results.length = length; //Fixed length
+    });
+
+    res.json(results); //Send results
+});
+
+//Catch-all, render index
+app.get('/*', function (req, res) {
+    res.render("index");
 });
 
 //SERVER
