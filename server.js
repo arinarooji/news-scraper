@@ -1,7 +1,7 @@
 //DEPENDENCIES
 const express    = require("express");
 const bodyParser = require("body-parser");
-const handlebars = require("express-handlebars");
+const exhan = require("express-handlebars");
 const cheerio    = require("cheerio");  // Parses our HTML and helps us find elements
 const request    = require("request");  // Makes HTTP request for HTML page
 const mongoose   = require("mongoose"); // Our newest addition to the dependency family
@@ -9,15 +9,18 @@ const mongoose   = require("mongoose"); // Our newest addition to the dependency
 const config = require("./config").init();
 const model  = require("./models/model.js");
 let port     = require("./config").port;
-////////////////////////////////////////
-const results = [], length = 9;
+
+const results = [], length = 7; //Array to store results (will be relocated)
+///////////////////////////////
+
 //CONFIGURATION
 //Express, Express-Handlebars
 var app = express(); // Initialize Express
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(express.static("public"));
-    app.engine("handlebars", handlebars({ defaultLayout: "main" }));
+    app.engine("handlebars", exhan({ defaultLayout: "main" }));
     app.set("view engine", "handlebars");
+
 //Mongoose
 mongoose.Promise = Promise; //Leverage ES6 promises, mongoose
     //mLab connection
@@ -36,16 +39,13 @@ db.once("open", function() {
 });*/
 ///////////////////////////////////////////////////
 
-
-/////////////////////////
-
 //ROUTES
-//Scrape and return NY Times data
-app.get('/data', function(req, res) {
+app.get('*', function(req, res) {
     
     //Retrieve HTML data from NY Times
     request("https://www.nytimes.com/", function(error, response, html) {
         var $ = cheerio.load(html);
+        
         // With cheerio, find each article tag with the "story theme-summary" classes
         $("article.story.theme-summary").each(function(i, element) {
 
@@ -57,14 +57,15 @@ app.get('/data', function(req, res) {
             results.push({ headline: headline.trim(), summary: summary.trim(), url: url });
         });
         results.length = length; //Fixed length
+        //If headline is not in the DB
+        //...
+        //Insert results into the DB
+        //...
+        //Find all documents in the DB
+        //...
+        //Render the documents with handlebars
+        res.render("index", {results});
     });
-
-    res.json(results); //Send results
-});
-
-//Catch-all, render index
-app.get('/*', function (req, res) {
-    res.render("index");
 });
 
 //SERVER

@@ -1,0 +1,25 @@
+<div class="container">
+    {{#each results}}
+        <div class="row">
+            <div class="col-sm-12 col-lg-7">
+                <h3>{{{headline}}}</h3>
+                <p>{{{summary}}}</p>
+                <a href={{{url}}} target="_blank">View Article</a>
+                <br>
+            </div>
+            <div class="col-sm-12 col-lg-7 comment-div">
+                <div class="comment-output" style = "max-height: 125px; overflow: auto;">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas egestas, arcu id ullamcorper congue, massa metus posuere libero, quis congue risus nibh gravida nibh. In efficitur est sem, ut volutpat risus viverra quis. Phasellus fermentum ullamcorper velit, ac venenatis lorem posuere tempor. Sed fringilla quis odio vel dictum. Aenean tortor eros, suscipit sit amet viverra eget, rhoncus in enim. Nulla aliquam quam sem, vitae commodo diam facilisis sit amet. Phasellus elit ipsum, lobortis vel tincidunt quis, pulvinar quis justo. Phasellus imperdiet lectus et dignissim viverra. Donec nec congue ex. Morbi cursus purus ipsum, vel efficitur enim luctus quis. Morbi orci metus, vestibulum ut efficitur id, consectetur quis velit. Etiam at cursus nibh. Ut mattis malesuada lorem, quis ultricies leo mollis vitae. Ut scelerisque risus quis quam rutrum, quis dictum tortor bibendum. Morbi fringilla nisl leo, mattis egestas nulla tempor luctus. Maecenas ut nibh ornare, pulvinar dui vel, eleifend urna.</p>
+                </div>
+            </div>
+            <div class="col-sm-12 col-lg-7">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control comment-input" placeholder="" aria-label="viewer-comment" aria-describedby="basic-addon2" maxlength="75">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-success" type="submit">Comment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</div>
