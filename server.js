@@ -7,7 +7,7 @@ const request    = require("request");  // Makes HTTP request for HTML page
 const mongoose   = require("mongoose"); // Our newest addition to the dependency family
 
 const config = require("./config").init();
-const model  = require("./models/model.js");
+const Model  = require("./models/model.js");
 let port     = require("./config").port;
 
 const results = [], length = 7; //Array to store results (will be relocated)
@@ -26,17 +26,17 @@ mongoose.Promise = Promise; //Leverage ES6 promises, mongoose
     //mLab connection
     //var db = mongoose.connect(config.db.uri, { useMongoClient: true });
     //local connection
-    //mongoose.connect("mongodb://localhost/newscraper");
-    //var db = mongoose.connection;
+    mongoose.connect("mongodb://localhost/newscraper", { useMongoClient: true });
+    var db = mongoose.connection;
 
-/*Log mongoose errors
+//Log mongoose errors
 db.on("error", function(error) {
     console.log("Mongoose Error: ", error);
 });
 //Log connection success
 db.once("open", function() {
     console.log("Mongoose connection successful.");
-});*/
+});
 ///////////////////////////////////////////////////
 
 //ROUTES
@@ -57,15 +57,23 @@ app.get('*', function(req, res) {
             results.push({ headline: headline.trim(), summary: summary.trim(), url: url });
         });
         results.length = length; //Fixed length
-        //If headline is not in the DB
-        //...
-        //Insert results into the DB
-        //...
+
+        //For each result in results[]
+        results.forEach(function(result){
+            //Look for a matching headline in the DB
+            Model.find({headline: result.headline}, function(err, data) {
+                if (err) return handleError(err);
+                //If no data is found, create this new instance of news in the DB
+                if (data == "") Model.create({headline: result.headline, summary: result.summary, url: result.url});
+            });
+        });
+        
         //Find all documents in the DB
         //...
         //Render the documents with handlebars
         res.render("index", {results});
     });
+    
 });
 
 //SERVER
