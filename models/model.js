@@ -21,6 +21,10 @@ const News = new Schema({
     type: String,
     trim: true,
     required: "String is Required"
+  },
+  date: {
+    type: Date,
+    default: Date.now
   }
 });
 
