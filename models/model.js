@@ -29,7 +29,7 @@ const News = new Schema({
 });
 
 // This creates our model from the above schema, using mongoose's model method
-const collection = "stories"
+const collection = "stories";
 const Model = mongoose.model("Model", News, collection);
 
 // Finally, we export the module, allowing server.js to hook into it with a require statement

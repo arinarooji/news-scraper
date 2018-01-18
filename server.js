@@ -3,7 +3,7 @@ const express    = require("express");
 const bodyParser = require("body-parser");
 const handlebars = require("express-handlebars");
 const cheerio    = require("cheerio");  // Parses our HTML and helps us find elements
-const request    = require("request");  // Makes HTTP request for HTML page
+const request    = require("request-promise"); // Wraps request with easy promises
 const mongoose   = require("mongoose"); // Our newest addition to the dependency family
 
 const config = require("./config").init();
@@ -40,12 +40,12 @@ db.once("open", function() {
 ///////////////////////////////////////////////////
 
 //ROUTES
-app.get('*', function(req, res) {
+app.get('/data', function(req, res) {
     
     //Retrieve HTML data from NY Times
     request("https://www.nytimes.com/", function(error, response, html) {
         var $ = cheerio.load(html);
-        
+
         // With cheerio, find each article tag with the "story theme-summary" classes
         $("article.story.theme-summary").each(function(i, element) {
 
@@ -56,24 +56,30 @@ app.get('*', function(req, res) {
             // Save these results in an object that we'll push into the results[]
             results.push({ headline: headline.trim(), summary: summary.trim(), url: url });
         });
-        results.length = length; //Fixed length
 
-        //For each result in results[]
+        //We only need the first 7 results scraped by cheerio
+        //NY Times has additional articles with the same tag/classes but less info (no summary, etc)
+        results.length = length;
+
+        //For each result in results[] look for a matching headline in the DB
         results.forEach(function(result){
-            //Look for a matching headline in the DB
             Model.find({headline: result.headline}, function(err, data) {
                 if (err) return handleError(err);
                 //If no data is found, create this new instance of news in the DB
                 if (data == "") Model.create({headline: result.headline, summary: result.summary, url: result.url});
             });
         });
-        
+
         //Find all documents in the DB
-        //...
+        Model.find({}, function(err, data) {
+            if (err) return handleError(err);
+            //Store all database documents in results[]
+            results = data;
+        });
+
         //Render the documents with handlebars
         res.render("index", {results});
     });
-    
 });
 
 //SERVER
