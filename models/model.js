@@ -22,6 +22,13 @@ const News = new Schema({
     trim: true,
     required: "String is Required"
   },
+  comments: {
+    type: Array
+  },
+  saved: {
+    type: Boolean,
+    default: false
+  },
   date: {
     type: Date,
     default: Date.now

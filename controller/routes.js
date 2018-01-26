@@ -9,9 +9,10 @@ const Model      = require("../models/model.js");
 
 //Initialize express
 const app = express();
+mongoose.Promise = Promise; //Leverage ES6 promises, mongoose
 
 //ROUTES
-app.get('/data', (req, res) => {
+app.get('/', (req, res) => {
     
     //Retrieve HTML data from NY Times
     request("https://www.nytimes.com/", (error, response, html) => {
@@ -35,21 +36,22 @@ app.get('/data', (req, res) => {
 
         //For each result in results[] look for a matching headline in the DB
         results.forEach( result => {
-            Model.find({headline: result.headline}, (err, data) => {
+            Model.find({headline: result.headline.toString()}, (err, data) => {
                 if (err) return handleError(err);
-                //If no data is found, create this new instance of news in the DB
-                if (data == "") Model.create({headline: result.headline, summary: result.summary, url: result.url});
+                //If no data is found and headline is not blank, create this new instance of news in the DB
+                if (data == "" && result.headline !== "")
+                    Model.create({headline: result.headline.toString(), summary: result.summary.toString(), url: result.url.toString()});
             });
         });
 
         //Find all documents in the DB
         Model.find({}, (err, data) => {
             if (err) return handleError(err);
+            console.log(data);
+            results = []; //Empty results
             results = data; //Store all database documents in results[]
+            res.render("index", {results}); //Render the documents with handlebars
         });
-
-        //Render the documents with handlebars
-        res.render("index", {results});
     });
 });
 
