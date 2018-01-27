@@ -8,7 +8,7 @@ $(document).ready(() => {
 
         console.log($($btn).data('id'));
 
-        //AJAX put request
+        //AJAX POST request
         //...
 
     });
