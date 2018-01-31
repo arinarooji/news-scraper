@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
     //Retrieve HTML data from NY Times
     request("https://www.nytimes.com/", (error, response, html) => {
         var $ = cheerio.load(html);
-        var results = [];
+        var results = [];                                                                                                                                  
 
         // With cheerio, find each article tag with the "story theme-summary" classes
         $("article.story.theme-summary").each( (i, element) => {
@@ -53,6 +53,20 @@ app.get('/', (req, res) => {
             res.render("index", {results}); //Render the documents with handlebars
         });
     });
+});
+
+//POST comment request
+//...
+app.post('/comment', (req, res) => {
+    
+    console.log(req.body);
+
+    //Find article ID in the database
+    //..
+    //Save the name and comment in the comments array
+    //...
+
+    //Note: handlebars must render all comments
 });
 
 module.exports = app; //Export for the server to use
