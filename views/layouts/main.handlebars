@@ -39,26 +39,25 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="modal-title">Leave a Comment</h5>
+            <h5 class="modal-title" id="modal-title">Article Notes</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <form id="modal-form">
-                <div class="form-group">
-                    <label for="name-input">Name</label>
-                    <input type="text" class="form-control" id="name-input" placeholder="Name" maxlength="40">
+                <div class="form-group notes-output bg-light" style = "max-height: 150px; overflow: auto;">
+                    <!-- Notes appended here -->
                 </div>
                 <div class="form-group">
-                    <label for="comment-input">Comment</label>
-                    <textarea class="form-control" id="comment-input" rows="3" maxlength="150" placeholder="Your thoughts..."></textarea>
+                    <label for="comment-input">Write a Note</label>
+                    <textarea class="form-control" id="comment-input" rows="3" maxlength="150" placeholder=""></textarea>
                 </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary modal-post-btn" data-dismiss="modal">Post Comment</button>
+            <button type="button" class="btn btn-primary modal-post-btn" data-dismiss="modal">Post Note</button>
           </div>
         </div>
       </div>

@@ -1,31 +1,37 @@
 <div class="container">
     {{#each results}}
         <div class="row my-5 bg-light rounded">
-            <div class="col-sm-12 col-lg-6 mb-5">
+            <div class="col-12 mb-4">
                 <h3>{{{headline}}}</h3>
-                <p>{{{date}}}</p>
+                <p><b>Scraped On:</b> {{{date}}}</p>
                 <p>{{{summary}}}</p>
                 <a href={{{url}}} target="_blank">View Article</a>
                 <br>
             </div>
+            <!--
             <div class="col-sm-12 col-lg-6 comment-div">
                 <h6 class="text-center">Article Comments</h6>
-                <div class="comment-output" style = "max-height: 125px; overflow: auto;">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <div class="comment-output" style = "max-height: 295px; overflow: auto;">
+                    {{#each comments}}
+                        <p><b>{{{name}}}:</b> {{{comment}}}</p>
+                    {{/each}}
                 </div>
             </div>
+            -->
             <div class="col-sm-12 col-lg-6 mb-1">
                 <button
-                    class="btn btn-outline-info comment-btn"
+                    class="btn btn-outline-info notes-btn"
                     type="button"
                     data-id={{{id}}}
                     data-toggle="modal"
                     data-target="#exampleModalCenter">
-                    Leave a Comment
+                    Article Notes
+                </button>
+                <button
+                    class="btn btn-outline-info save-btn"
+                    type="button"
+                    data-id={{{id}}}>
+                    Save Article
                 </button>
             </div>
         </div>

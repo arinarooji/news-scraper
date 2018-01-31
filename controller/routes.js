@@ -7,11 +7,12 @@ const request    = require("request-promise"); // Wraps request with easy promis
 const mongoose   = require("mongoose"); // Our newest addition to the dependency family
 const Model      = require("../models/model.js");
 
-//Initialize express
-const app = express();
+//CONFIGURATION
+const app = express(); //Initialize express
 mongoose.Promise = Promise; //Leverage ES6 promises, mongoose
 
 //ROUTES
+//GET scraped data from NYTimes (no duplicates or empty objects)
 app.get('/', (req, res) => {
     
     //Retrieve HTML data from NY Times
@@ -34,7 +35,7 @@ app.get('/', (req, res) => {
         //NY Times has additional articles with the same tag/classes but less info (no summary, etc)
         results.length = 7;
 
-        //For each result in results[] look for a matching headline in the DB
+        //For each result in results[] look for a matching headline in the DB (Synchronous)
         results.forEach( result => {
             Model.find({headline: result.headline.toString()}, (err, data) => {
                 if (err) return handleError(err);
@@ -44,10 +45,9 @@ app.get('/', (req, res) => {
             });
         });
 
-        //Find all documents in the DB
+        //Find all documents in the DB (Asynchronous)
         Model.find({}, (err, data) => {
             if (err) return handleError(err);
-            console.log(data);
             results = []; //Empty results
             results = data; //Store all database documents in results[]
             res.render("index", {results}); //Render the documents with handlebars
@@ -55,18 +55,21 @@ app.get('/', (req, res) => {
     });
 });
 
+//GET the specified article's information (specified by _id)
+app.get('/notes:id', (req, res) => {
+    Model.findById({_id: req.params.id}, (err, article) => { res.json(article); });
+});
+
 //POST comment request
-//...
 app.post('/comment', (req, res) => {
-    
-    console.log(req.body);
+    //commentData object to push into the article's comments[] array
+    let commentData = {comment: req.body.comment};
 
-    //Find article ID in the database
-    //..
-    //Save the name and comment in the comments array
-    //...
-
-    //Note: handlebars must render all comments
+    //Find article ID in the database, push comment data to the comments[] array
+    Model.updateOne({_id: req.body.id}, {$push: {comments: commentData}}).exec((err,result) => {
+        if (err) throw err;
+        console.log(result);
+    });
 });
 
 module.exports = app; //Export for the server to use
