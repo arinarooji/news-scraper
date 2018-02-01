@@ -1,6 +1,6 @@
 <div class="container">
     {{#each results}}
-        <div class="row my-5 bg-light rounded">
+        <div class="row my-5 bg-light rounded {{{id}}}">
             <div class="col-12 mb-4">
                 <h3>{{{headline}}}</h3>
                 <p><b>Scraped On:</b> {{{date}}}</p>
@@ -10,7 +10,7 @@
             </div>
             <div class="col-sm-12 col-lg-6 mb-1">
                 <button
-                    class="btn btn-outline-info notes-btn"
+                    class="btn btn-info notes-btn"
                     type="button"
                     data-id={{{id}}}
                     data-toggle="modal"

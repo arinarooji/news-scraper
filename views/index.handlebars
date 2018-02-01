@@ -9,12 +9,22 @@
                 <br>
             </div>
             <div class="col-sm-12 col-lg-6 mb-1">
-                <button
-                    class="btn btn-outline-info save-btn"
-                    type="button"
-                    data-id={{{id}}}>
-                    Save Article
-                </button>
+                {{#unless saved}}
+                    <button
+                        class="btn btn-outline-success save-btn"
+                        type="button"
+                        data-id={{{id}}}>
+                        Save Article
+                    </button>
+                {{/unless}}
+                {{#if saved}}
+                    <button
+                        class="btn btn-success save-btn"
+                        type="button"
+                        data-id={{{id}}}>
+                        Saved
+                    </button>
+                {{/if}}
             </div>
         </div>
     {{/each}}

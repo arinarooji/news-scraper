@@ -42,6 +42,9 @@ $(document).ready(() => {
         //AJAX POST request
         //Post the commentData to the /comment route
         $.post({ url: "/comment", data: commentData });
+
+        //Empty comment-input area
+        $("#comment-input").val("");
     });
 
     //SAVE ARTICLE
@@ -56,6 +59,11 @@ $(document).ready(() => {
         //AJAX PUT request
         //Update the specified article's saved status to true
         $.ajax({ url: "/save" + $id, type: 'PUT', data: saveData });
+
+        //Swap Bootstrap classes to reflect save (no refresh required)
+        $($btn).addClass("btn-success");
+        $($btn).removeClass("btn-outline-success");
+        $($btn).html("Saved");
     });
 
     //REMOVE ARTICLE (REVERT "SAVED:" TO FALSE)
@@ -70,6 +78,9 @@ $(document).ready(() => {
         //AJAX PUT request
         //Update the specified article's saved status to true
         $.ajax({ url: "/remove" + $id, type: 'PUT', data: saveData });
+
+        //Remove this entire div from the DOM
+        $(`.${$id}`).remove();
     });
 
 });
