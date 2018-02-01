@@ -55,6 +55,17 @@ app.get('/', (req, res) => {
     });
 });
 
+//GET all saved articles and render them on saved.handlebars
+app.get('/saved', (req, res) => {
+    //Find all SAVED documents in the DB (Asynchronous)
+    Model.find({saved: true}, (err, data) => {
+        if (err) return handleError(err);
+        results = []; //Empty results
+        results = data; //Store all database documents in results[]
+        res.render("saved", {results}); //Render the documents with handlebars
+    });
+});
+
 //GET the specified article's information (specified by _id)
 app.get('/notes:id', (req, res) => {
     Model.findById({_id: req.params.id}, (err, article) => { res.json(article); });
@@ -71,5 +82,26 @@ app.post('/comment', (req, res) => {
         console.log(result);
     });
 });
+
+//PUT saved status as true
+app.put('/save:id', (req, res) => {
+    let id = req.params.id;
+    Model.findByIdAndUpdate({ _id: id }, { saved: true }, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+    });
+});
+
+//PUT saved status as false
+app.put('/remove:id', (req, res) => {
+    let id = req.params.id;
+    Model.findByIdAndUpdate({ _id: id }, { saved: false }, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+    });
+});
+
+//DELETE notes
+//...
 
 module.exports = app; //Export for the server to use
