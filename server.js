@@ -21,11 +21,15 @@ const app = express();
     app.set("view engine", "handlebars");
 
 //Mongoose
-mongoose.Promise = Promise; //Leverage ES6 promises, mongoose
+mongoose.Promise = Promise; //Leverage ES6 promises
 //mLab connection
 //var db = mongoose.connect(config.db.uri, { useMongoClient: true });
 //local connection
-mongoose.connect("mongodb://localhost/newscraper", { useMongoClient: true });
+//mongoose.connect("mongodb://localhost/newscraper", { useMongoClient: true });
+
+// We will need to create an .env with our new mlab DB
+mongoose.connect(config.db.MONGODB_URI || "mongodb://localhost/newscraper", { useMongoClient: true });
+
 const db = mongoose.connection;
 
 //Log mongoose errors

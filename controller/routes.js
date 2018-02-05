@@ -9,7 +9,7 @@ const Model      = require("../models/model.js");
 
 //CONFIGURATION
 const app = express(); //Initialize express
-mongoose.Promise = Promise; //Leverage ES6 promises, mongoose
+mongoose.Promise = Promise; //Leverage ES6 promises
 
 //ROUTES
 //GET scraped data from NYTimes (no duplicates or empty objects)
@@ -49,7 +49,7 @@ app.get('/', (req, res) => {
         Model.find({}, (err, data) => {
             if (err) return handleError(err);
             results = []; //Empty results
-            results = data; //Store all database documents in results[]
+            results = data.reverse(); //Store all database documents in results[]
             res.render("index", {results}); //Render the documents with handlebars
         });
     });
@@ -79,7 +79,6 @@ app.post('/comment', (req, res) => {
     //Find article ID in the database, push comment data to the comments[] array
     Model.updateOne({_id: req.body.id}, {$push: {comments: commentData}}).exec((err,result) => {
         if (err) throw err;
-        console.log(result);
     });
 });
 
@@ -88,7 +87,6 @@ app.put('/save:id', (req, res) => {
     let id = req.params.id;
     Model.findByIdAndUpdate({ _id: id }, { saved: true }, (err, result) => {
         if (err) throw err;
-        console.log(result);
     });
 });
 
@@ -97,7 +95,6 @@ app.put('/remove:id', (req, res) => {
     let id = req.params.id;
     Model.findByIdAndUpdate({ _id: id }, { saved: false }, (err, result) => {
         if (err) throw err;
-        console.log(result);
     });
 });
 
