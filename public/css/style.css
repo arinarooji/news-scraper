@@ -1,0 +1,20 @@
+* {margin: 0; padding: 0;}
+.image-container {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+/* Centered text over image */
+.img-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.border-btm {
+    border-bottom: 1px solid lightblue;
+    border-right: 1px solid lightblue;
+}
+.back-lightblue {
+    background-color: rgba(173, 216, 230, 0.2);
+}
