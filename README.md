@@ -23,7 +23,7 @@ ________________
 - A modal will then appear, providing a text area and a **Post** button for when you're ready to post your note.
 - The next time you click **Article Notes**, you will see your new note at the top of the modal!
 
-##### Deleting Saved Articles
+##### Removing Saved Articles
 - When you no longer need a specific article saved, simply click the **Remove Article** button.
 - The article will remain on the **Home** page, allowing you to resave and review all of your notes if needed.
 <br/>
