@@ -1,7 +1,7 @@
 # Newscraper
 ![newyork-evening 2](https://user-images.githubusercontent.com/30301389/35880544-351511a4-0b4c-11e8-84fc-14f7d4a3ca01.jpg)
 
-### Stay up to date with the latest scraped news.
+### Stay up to date with the latest news scraped from The New York Times.
 <br/>
 
 ### Guide
