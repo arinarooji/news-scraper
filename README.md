@@ -30,8 +30,9 @@ ________________
 - The article will remain on the **Home** page, allowing you to resave and review all of your notes if needed.
 <br/>
 
-### Future Plans
+### Additional Information
 ________________
+#### Future Plans
 - Article categories
 - Further code optimization
 - Delete comments functionality
